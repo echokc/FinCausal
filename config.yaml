@@ -1,0 +1,9 @@
+llm:
+  provider: ollama       # openai | ollama | anthropic
+  model: qwen2.5-coder:7b
+  temperature: 0
+
+eval:
+  cache_dir: eval/llm_cache
+  results_dir: eval/results
+ 
