@@ -41,7 +41,9 @@ Each scenario is evaluated across ** parallel universes**:
 - **Global Status:** `PASS` | `CAUTION` (causal pass, low utility) | `FAIL`
 
 #### Example of output
-![Chart Example](/assets/figure-example.png)
+<p align="left">
+  <img src="assets/figure_example.png" style="width: 50%; height: auto;">
+</p>
 
 ---
 
