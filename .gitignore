@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# OS/editor metadata
+.DS_Store
+
+# Local experiment artifacts
+results/
+notebooks/_scratch/

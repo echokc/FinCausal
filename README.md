@@ -30,15 +30,36 @@ Each scenario is evaluated across ** parallel universes**:
 
 > **Core Principle:** Causally correct logic is *immune* to future shocks. If Universe B's shock changes model output *before* time *T*, the causal chain is broken.
 
-#### Dual-Axis Scoring (per scenario)
-- **Axis 1 — Causal Integrity Score (CIS): — Pass/fail gate. Zero tolerance for causal violations.
-- **Axis 2 — Functional Utility Score (FUS): — Gradient signal for iterative improvement.
-- **Alignment & Auditability Pillar** — Bonus/penalty modifier for traceability and documentation quality.
+#### Hybrid Scoring
 
-#### Aggregation: Dual-Layer Radar Chart
-- **Inner Ring (Causal Backbone):** CIS scores across all 11 scenarios. Any vertex at zero = overall fail.
-- **Outer Halo (Utility Aura):** Utility and engineering scores layered on top.
-- **Global Status:** `PASS` | `CAUTION` (causal pass, low utility) | `FAIL`
+The current eval pipeline uses a binary/triage scorer:
+
+```text
+contract gate
+  -> deterministic probes produce evidence and charges
+  -> optional LLM judge adjudicates true failure vs scorer mismatch
+  -> PASS / FAIL / QUARANTINE
+```
+
+`FAIL` is reserved for confirmed contract, runtime, or semantic failures.
+`QUARANTINE` means the pipeline cannot reliably attribute the issue.
+
+#### Eval Pipeline Layout
+
+The recipe benchmark is organized by responsibility:
+
+```text
+eval/recipes/             # recipe models, builders, reusable templates, and catalog entries
+eval/generation/data/     # fixture models, fixture generators, registry, quality checks, and fixture IO
+eval/generation/prompts/  # generic recipe prompt builders and temporal prompt rendering
+eval/execution/           # candidate code extraction, input bindings, and local subprocess execution
+eval/scoring/             # deterministic probes, recipe scorer, and optional LLM judge
+eval/evaluation/          # case manifests, candidate sources, repair loop, records, radar plot, pipeline orchestration
+eval/runners/             # thin CLI entrypoints
+```
+
+Legacy import paths under `eval/data_generation`, `eval/cli/executor.py`, and `eval/recipes/recipe_core.py`
+are kept as compatibility shims, but new code should use the packages above.
 
 #### Example of output
 <p align="left">
@@ -101,10 +122,41 @@ uv venv && source .venv/bin/activate
 uv pip install -e .
 ```
 
-#### Run the eval benchmark
+#### Run the recipe eval benchmark
 ```bash
-# Run only specific scenarios
-python eval/core/main.py --scenarios S001
+# Run smoke controls across all registered recipe scenarios
+python -m eval.smoketest.run_recipe_smoke
+
+# Smoke-test prompt generation
+python -m eval.smoketest.run_recipe_prompt_smoke
+
+# Generate fixture data for one recipe behavior
+python -m eval.generation.data.fixture_generation_cli \
+  --behavior-key s001_global_quantile_leakage \
+  --seed 42 \
+  --output-root results/recipe_data
+
+# Build standalone case manifests and fixture files
+python -m eval.runners.recipe_case_manifest \
+  --output-root results/recipe_cases
+
+# Run the recipe pipeline with controls
+python -m eval.runners.recipe_eval_pipeline \
+  --candidate-source controls \
+  --output-path results/recipe_pipeline/controls.jsonl
+
+# Render a pillar-level radar plot from pipeline JSONL records
+python -m eval.runners.recipe_radar_plot \
+  --input-path results/recipe_pipeline/controls.jsonl \
+  --output-path results/recipe_pipeline/controls_radar.svg
+
+# Run one behavior with real LLM samples
+python -m eval.runners.recipe_eval_pipeline \
+  --behavior-key s010_fat_tail_fiduciary_discrimination \
+  --candidate-source llm \
+  --llm-samples 1 \
+  --config-path config.yaml \
+  --output-path results/recipe_pipeline/s010_llm.jsonl
 ```
 
 
