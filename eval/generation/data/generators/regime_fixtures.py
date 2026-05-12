@@ -4,12 +4,10 @@ from typing import Callable, Dict, List
 import numpy as np
 import pandas as pd
 
-from eval.generation.data.fixture_builders import _fixture
+from eval.generation.data.fixture_builders import fixture
 from eval.generation.data.fixture_models import UniverseFixture
 
-
 GeneratorFn = Callable[[int], List[UniverseFixture]]
-
 
 def _s007(seed: int) -> List[UniverseFixture]:
     rng = np.random.default_rng(seed)
@@ -23,14 +21,14 @@ def _s007(seed: int) -> List[UniverseFixture]:
     volume_normal = np.full(n, normal_volume)
     volume_thin = np.full(n, thin_volume)
     return [
-        _fixture(
+        fixture(
             "normal_liquidity",
             pd.DataFrame({"timestamp": ts, "close": close, "volume": volume_normal}),
             variant="realizable_liquidity",
             expected={"max_fill": min(10.0, normal_volume * 0.12)},
             volume=normal_volume,
         ),
-        _fixture(
+        fixture(
             "thin_liquidity",
             pd.DataFrame({"timestamp": ts, "close": close, "volume": volume_thin}),
             variant="thin_liquidity_illusion",
@@ -53,9 +51,9 @@ def _s008(seed: int) -> List[UniverseFixture]:
     leakage = shock.copy()
     leakage[-1] = float(np.mean(leakage[:220]))
     return [
-        _fixture("persistent_trend", pd.DataFrame({"timestamp": ts, "close": trend, "volume": 100.0}), variant="persistent_trend", expected={"position": "low"}, trend_drop=trend_drop),
-        _fixture("transient_shock", pd.DataFrame({"timestamp": ts, "close": shock, "volume": 100.0}), variant="transient_vol_shock", expected={"position": "high"}, shock_start=shock_start, shock_drop=shock_drop),
-        _fixture("leakage_sentinel", pd.DataFrame({"timestamp": ts, "close": leakage, "volume": 100.0}), variant="last_point_reversal_sentinel", expected={"prefix_invariant_to": "transient_shock"}, shock_start=shock_start, shock_drop=shock_drop),
+        fixture("persistent_trend", pd.DataFrame({"timestamp": ts, "close": trend, "volume": 100.0}), variant="persistent_trend", expected={"position": "low"}, trend_drop=trend_drop),
+        fixture("transient_shock", pd.DataFrame({"timestamp": ts, "close": shock, "volume": 100.0}), variant="transient_vol_shock", expected={"position": "high"}, shock_start=shock_start, shock_drop=shock_drop),
+        fixture("leakage_sentinel", pd.DataFrame({"timestamp": ts, "close": leakage, "volume": 100.0}), variant="last_point_reversal_sentinel", expected={"prefix_invariant_to": "transient_shock"}, shock_start=shock_start, shock_drop=shock_drop),
     ]
 
 
@@ -205,13 +203,13 @@ def _regime_break_panel(seed: int, *, variant: str) -> List[UniverseFixture]:
         )
 
     return [
-        _fixture(
+        fixture(
             "clean",
             frame(clean_a, clean_b),
             variant="stable_single_regime",
             expected={"major_break_count": 0, "min_regime_count": 1},
         ),
-        _fixture(
+        fixture(
             "shock",
             frame(shock_a, shock_b),
             variant="multi_structural_break_sequence",

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "negative_shift",
+    "pillar": "temporal_causality",
+    "severity": "critical",
+    "title": "Negative shift",
+    "description": "Negative shift can move future values into current rows.",
+    "keywords": ["shift", "future", "lookahead", "lead"]
+  },
+  {
+    "id": "backward_fill",
+    "pillar": "temporal_causality",
+    "severity": "high",
+    "title": "Backward fill",
+    "description": "Backward fill can leak future observations into earlier missing values.",
+    "keywords": ["bfill", "backfill", "fillna", "missing"]
+  },
+  {
+    "id": "future_index_access",
+    "pillar": "temporal_causality",
+    "severity": "high",
+    "title": "Future row indexing",
+    "description": "Positive-offset row indexing can read future rows for current decisions.",
+    "keywords": ["iloc", "index", "future", "row", "offset"]
+  },
+  {
+    "id": "global_quantile_for_online_signal",
+    "pillar": "temporal_causality",
+    "severity": "high",
+    "title": "Global quantile for online signal",
+    "description": "Full-sample quantiles can leak future distribution information into online decisions.",
+    "keywords": ["quantile", "threshold", "full-sample", "online", "regime"]
+  },
+  {
+    "id": "global_fit_for_online_signal",
+    "pillar": "temporal_causality",
+    "severity": "high",
+    "title": "Global fit for online signal",
+    "description": "Unscoped model or scaler fitting can use future observations for current decisions.",
+    "keywords": ["fit", "scaler", "model", "training", "full-sample"]
+  },
+  {
+    "id": "hardcoded_absolute_path",
+    "pillar": "execution_contract",
+    "severity": "critical",
+    "title": "Hardcoded absolute path",
+    "description": "Generated code must use provided data bindings instead of hardcoded absolute paths.",
+    "keywords": ["path", "read_csv", "open", "DATA_PATH", "sandbox"]
+  },
+  {
+    "id": "forbidden_optional_import",
+    "pillar": "execution_contract",
+    "severity": "high",
+    "title": "Forbidden optional import",
+    "description": "Generated code should not import unavailable optional packages outside the sandbox contract.",
+    "keywords": ["import", "dependency", "sklearn", "scipy", "statsmodels", "talib"]
+  },
+  {
+    "id": "future_regime_label",
+    "pillar": "regime_causality",
+    "severity": "high",
+    "title": "Future regime label",
+    "description": "Regime labels used at time t must not depend on future recovery, future drawdown, or ex-post segment boundaries.",
+    "keywords": ["regime", "label", "structural break", "future", "ex-post"]
+  },
+  {
+    "id": "risk_after_optimization",
+    "pillar": "risk_causality",
+    "severity": "high",
+    "title": "Risk after optimization",
+    "description": "Risk controls should not be bolted on after selecting an aggressive strategy or leverage value.",
+    "keywords": ["risk", "tail", "drawdown", "var", "cvar", "leverage", "kelly"]
+  }
+]

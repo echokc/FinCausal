@@ -2,7 +2,7 @@ import argparse
 import json
 
 from eval.evaluation.case_manifest import build_and_write_recipe_case
-from eval.smoketest.smoke_controls import SMOKE_CONTROLS
+from smoketest.smoke_controls import SMOKE_CONTROLS
 
 
 def main() -> int:

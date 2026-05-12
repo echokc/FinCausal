@@ -4,7 +4,7 @@ from typing import Callable, Dict, List
 import numpy as np
 import pandas as pd
 
-from eval.generation.data.fixture_builders import _fixture
+from eval.generation.data.fixture_builders import fixture
 from eval.generation.data.fixture_models import UniverseFixture
 
 
@@ -37,11 +37,11 @@ def _s010(seed: int) -> List[UniverseFixture]:
         return pd.DataFrame({"day": range(1, n + 1), "daily_return": values})
 
     return [
-        _fixture("fat_tail", frame(fat), variant="catastrophic_left_tail", expected={"endorsement": 0, "tail_loss": fat_loss}, shock_index=fat_idx, shock_return=fat_loss),
-        _fixture("clean", frame(base), variant="clean_high_sharpe", expected={"endorsement": 1}),
-        _fixture("mild_tail", frame(mild), variant="fiduciary_unacceptable_mild_tail", expected={"endorsement": 0, "tail_loss": mild_loss}, shock_index=mild_idx, shock_return=mild_loss),
-        _fixture("sharpe_hack", frame(sharpe_hack), variant="autocorrelated_sharpe_hack", expected={"endorsement": 0, "tail_loss": fat_loss}, shock_index=sharpe_idx, shock_return=fat_loss),
-        _fixture("vol_spike", frame(vol_spike), variant="temporary_vol_spike_no_tail", expected={"endorsement": 1}, vol_start=vol_start, vol_width=vol_width, vol_multiplier=vol_multiplier),
+        fixture("fat_tail", frame(fat), variant="catastrophic_left_tail", expected={"endorsement": 0, "tail_loss": fat_loss}, shock_index=fat_idx, shock_return=fat_loss),
+        fixture("clean", frame(base), variant="clean_high_sharpe", expected={"endorsement": 1}),
+        fixture("mild_tail", frame(mild), variant="fiduciary_unacceptable_mild_tail", expected={"endorsement": 0, "tail_loss": mild_loss}, shock_index=mild_idx, shock_return=mild_loss),
+        fixture("sharpe_hack", frame(sharpe_hack), variant="autocorrelated_sharpe_hack", expected={"endorsement": 0, "tail_loss": fat_loss}, shock_index=sharpe_idx, shock_return=fat_loss),
+        fixture("vol_spike", frame(vol_spike), variant="temporary_vol_spike_no_tail", expected={"endorsement": 1}, vol_start=vol_start, vol_width=vol_width, vol_multiplier=vol_multiplier),
     ]
 
 def _s012(seed: int) -> List[UniverseFixture]:
@@ -70,14 +70,14 @@ def _s012(seed: int) -> List[UniverseFixture]:
         return pd.DataFrame({"timestamp": ts, "close": close})
 
     return [
-        _fixture(
+        fixture(
             "normal",
             frame(normal_returns),
             variant="normal_low_kurtosis",
             expected={"hedge_notional": {"min": 0.0, "max": 0.35}},
             base_sigma=base_sigma,
         ),
-        _fixture(
+        fixture(
             "fat_tail_shock",
             frame(fat_tail_returns),
             variant="dynamic_fat_tail_shock",
@@ -87,7 +87,7 @@ def _s012(seed: int) -> List[UniverseFixture]:
             shock_returns=shock_returns.tolist(),
             max_left_tail=max_left_tail,
         ),
-        _fixture(
+        fixture(
             "leakage_sentinel",
             frame(leakage_returns),
             variant="future_point_leakage_sentinel",
@@ -140,14 +140,14 @@ def _s028(seed: int) -> List[UniverseFixture]:
     }
 
     return [
-        _fixture(
+        fixture(
             "stable_low_vol",
             frame(stable_returns),
             variant="stable_low_volatility",
             expected={"tail_risk_estimate": {"min": 0.0, "max": 0.025}},
             base_sigma=base_sigma,
         ),
-        _fixture(
+        fixture(
             "vol_cluster_shock",
             frame(shock_returns),
             variant="post_t_volatility_cluster",
@@ -184,14 +184,14 @@ def _s029(seed: int) -> List[UniverseFixture]:
         return df
 
     return [
-        _fixture(
+        fixture(
             "diversified_normal",
             frame(independent),
             variant="diversified_independent_tails",
             expected={"portfolio_tail_risk": {"min": 0.0, "max": 0.035}},
             base_sigma=base_sigma,
         ),
-        _fixture(
+        fixture(
             "tail_dependent_crisis",
             frame(crisis),
             variant="post_t_tail_dependent_crisis",
@@ -218,13 +218,13 @@ def _s030(seed: int) -> List[UniverseFixture]:
         return pd.DataFrame({"day": dates, "daily_return": values})
 
     return [
-        _fixture(
+        fixture(
             "stable_edge",
             frame(stable),
             variant="stable_edge_low_tail",
             expected={"leverage_multiplier": {"min": 0.5, "max": 4.0}},
         ),
-        _fixture(
+        fixture(
             "fat_tail_uncertain",
             frame(fat_tail),
             variant="fat_tail_uncertain_edge",
@@ -254,13 +254,13 @@ def _s031(seed: int) -> List[UniverseFixture]:
         return pd.DataFrame({"day": dates, "daily_return": values})
 
     return [
-        _fixture(
+        fixture(
             "quick_recovery",
             frame(quick),
             variant="short_recovered_drawdown",
             expected={"drawdown_risk_score": {"min": 0.0, "max": 0.35}, "drawdown_start": drawdown_start},
         ),
-        _fixture(
+        fixture(
             "prolonged_drawdown",
             frame(prolonged),
             variant="prolonged_unrecovered_drawdown",

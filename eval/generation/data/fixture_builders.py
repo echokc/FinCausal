@@ -2,10 +2,7 @@ from typing import Dict
 
 from eval.generation.data.fixture_models import UniverseFixture
 
-
-# 所有 _sXXX 生成器都会用的公共包装函数，
-# 负责把 name、data、generation metadata、expected metadata 打包成 UniverseFixture。
-def _fixture(
+def fixture(
     name: str,
     data: object,
     *,

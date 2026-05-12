@@ -1,0 +1,20 @@
+[
+  {
+    "id": "contract_example_temporal_regime",
+    "strategy_type": "regime_labeling",
+    "asset_class": "generic",
+    "data_frequency": "daily",
+    "description": "Point-in-time regime labeling from a time-indexed feature table.",
+    "known_hazards": [
+      "negative_shift",
+      "backward_fill",
+      "future_index_access",
+      "global_quantile_for_online_signal",
+      "global_fit_for_online_signal",
+      "hardcoded_absolute_path",
+      "forbidden_optional_import",
+      "future_regime_label"
+    ],
+    "required_invariants": ["output_contract", "prefix_invariance"]
+  }
+]

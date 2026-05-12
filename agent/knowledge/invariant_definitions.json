@@ -1,0 +1,23 @@
+[
+  {
+    "id": "output_contract",
+    "title": "Output contract",
+    "description": "Generated code must assign the requested output variable with the requested kind.",
+    "check_type": "deterministic",
+    "keywords": ["output", "variable", "contract", "alignment"]
+  },
+  {
+    "id": "prefix_invariance",
+    "title": "Prefix invariance",
+    "description": "Changing future rows should not change outputs for earlier decision times.",
+    "check_type": "light_synthetic",
+    "keywords": ["prefix", "future", "time", "online", "lookahead"]
+  },
+  {
+    "id": "output_alignment",
+    "title": "Output alignment",
+    "description": "Row-level outputs should align to the input decision rows.",
+    "check_type": "deterministic",
+    "keywords": ["alignment", "row", "series", "dataframe"]
+  }
+]

@@ -1,8 +1,8 @@
 import argparse
 import json
 
-from eval.evaluation.pipeline import run_recipe_eval_pipeline
-from eval.smoketest.smoke_controls import SMOKE_CONTROLS
+from eval.cli.pipeline import run_recipe_eval_pipeline
+from smoketest.smoke_controls import SMOKE_CONTROLS
 
 
 def main() -> int:
