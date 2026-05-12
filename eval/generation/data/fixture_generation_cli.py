@@ -9,7 +9,7 @@ from eval.generation.data.fixture_registry import RECIPE_DATA_GENERATORS
 
 
 def main() -> int:
-    from eval.smoketest.smoke_controls import SMOKE_CONTROLS
+    from smoketest.smoke_controls import SMOKE_CONTROLS
 
     parser = argparse.ArgumentParser(description="Generate recipe universe data.")
     parser.add_argument("--behavior-key", choices=sorted(RECIPE_DATA_GENERATORS), default=None)

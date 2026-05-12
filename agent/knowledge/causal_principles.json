@@ -1,0 +1,34 @@
+[
+  {
+    "id": "point_in_time_information",
+    "pillar": "temporal_causality",
+    "domain": "systematic_trading",
+    "title": "Point-in-time information",
+    "description": "A decision at time t may only use observations, estimates, and labels available at or before time t.",
+    "keywords": ["time", "timestamp", "date", "online", "point-in-time", "lookahead", "future"]
+  },
+  {
+    "id": "prefix_estimation",
+    "pillar": "temporal_causality",
+    "domain": "systematic_trading",
+    "title": "Prefix-scoped estimation",
+    "description": "Parameters used for online row-level decisions should be estimated on a prior prefix, a rolling window, or another explicitly valid training split.",
+    "keywords": ["rolling", "expanding", "fit", "training", "full-sample", "quantile", "threshold"]
+  },
+  {
+    "id": "execution_contract_integrity",
+    "pillar": "execution_contract",
+    "domain": "systematic_trading",
+    "title": "Execution contract integrity",
+    "description": "Generated code must use provided data bindings and permitted libraries rather than hidden files, hardcoded paths, or unavailable dependencies.",
+    "keywords": ["sandbox", "binding", "DATA_PATH", "dependency", "path", "import"]
+  },
+  {
+    "id": "risk_before_optimization",
+    "pillar": "risk_causality",
+    "domain": "systematic_trading",
+    "title": "Risk before optimization",
+    "description": "Trading code should handle downside constraints and tail-risk protections before optimizing attractive performance summaries.",
+    "keywords": ["risk", "tail", "drawdown", "var", "cvar", "leverage", "kelly"]
+  }
+]

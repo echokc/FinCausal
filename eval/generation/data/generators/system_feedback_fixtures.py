@@ -4,7 +4,7 @@ from typing import Callable, Dict, List
 import numpy as np
 import pandas as pd
 
-from eval.generation.data.fixture_builders import _fixture
+from eval.generation.data.fixture_builders import fixture
 from eval.generation.data.fixture_models import UniverseFixture
 
 
@@ -32,9 +32,9 @@ def _s006(seed: int) -> List[UniverseFixture]:
     long_high = long_low.copy()
     long_high["vol_1min"] = high_vol
     return [
-        _fixture("neutral_inventory", neutral, variant="neutral_inventory", expected={"net_position": 0.0}, qty=qty),
-        _fixture("long_low_vol", long_low, variant="long_inventory_low_vol", expected={"net_position": 25 * qty}, qty=qty, vol_1min=low_vol),
-        _fixture("long_high_vol", long_high, variant="long_inventory_high_vol", expected={"net_position": 25 * qty}, qty=qty, vol_1min=high_vol),
+        fixture("neutral_inventory", neutral, variant="neutral_inventory", expected={"net_position": 0.0}, qty=qty),
+        fixture("long_low_vol", long_low, variant="long_inventory_low_vol", expected={"net_position": 25 * qty}, qty=qty, vol_1min=low_vol),
+        fixture("long_high_vol", long_high, variant="long_inventory_high_vol", expected={"net_position": 25 * qty}, qty=qty, vol_1min=high_vol),
     ]
 
 

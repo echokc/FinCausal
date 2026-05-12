@@ -3,7 +3,7 @@ import json
 from typing import Any, Dict
 
 from eval.generation.prompts.prompt_builders import build_prompt_from_recipe, prompt_quality_checks
-from eval.smoketest.smoke_controls import SMOKE_CONTROLS
+from smoketest.smoke_controls import SMOKE_CONTROLS
 
 
 def run_recipe_prompt_smoke(behavior_key: str | None = None) -> Dict[str, Any]:

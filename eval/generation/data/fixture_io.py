@@ -3,8 +3,6 @@ from typing import Dict, List
 
 from eval.generation.data.fixture_models import UniverseFixture
 
-
-
 def write_recipe_fixtures(fixtures: List[UniverseFixture], output_dir: str) -> Dict[str, str]:
     os.makedirs(output_dir, exist_ok=True)
     paths = {}

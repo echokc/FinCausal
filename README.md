@@ -72,40 +72,45 @@ are kept as compatibility shims, but new code should use the packages above.
 
 #### Multi-Node Graph: Causal Violation Prevention
 
+Instead of asking an LLM to simply “avoid look-ahead bias,” Layer 2 makes the model generate code under a structured **CausalContract**.
+
+The contract specifies what information is allowed, what information is forbidden, what invariants must hold, and which hazards should be guarded against.
+
 ```text
-                     [Init & Intent Node]
-                               ↓
-               (mount sandbox + lock time_cursor + load docs)
-    ┌──────────────────────────────────────────────────────────────┐
-    │                     Research Subgraph                        │
-    │  ┌──────────────────────────────┐   ┌────────────────────-─┐ │
-    │  │   [Research Planner]         │   │ [Constraint Reasoner]│ │
-    │  │   ReAct • Macro logic        │ ↔ │ DetailedCausalPlan   │ │
-    │  │   + TaskContract             │   │ + GUARD              │ │
-    │  └──────────────────────────────┘   └──────────────────────┘ │
-    └──────────────────────────────┬───────────────────────────────┘
-                                   ↓
-                      [Constrained Code Generator]
-                 (step-by-step code + inline comments)
-                                   ↓
-                     [Static Linter Verifier]
-                     (AST + Regex + CAUSAL GUARD check)
-                         ├── Pass ──→ [Teardown Node]
-                         │               (shutil.rmtree)
-                         └── Fail ──→ Back to Generator
-                                  ↓
-                            Final Output
-                                  ↓
-                         (Independent Layer1 Eval)
-
-
+Intent
+  ↓
+CausalContract
+  ↓
+Constrained Code Generation
+  ↓
+Static Guardrails
+  ↓
+Invariant Checks
+  ↓
+Repair Loop
+  ↓
+Final Output + AgentTrace
 ```
+
+Layer 2 is designed around one principle:
+
+> Do not make the agent a template matcher over known failures. Do not make it an unconstrained causal philosopher. Make it produce, verify, and repair a structured causal contract.
+
+### What Layer 2 Adds
+
+- **CausalContract:** turns vague causal requirements into explicit obligations.
+- **Static guardrails:** catch common hazards such as negative shifts, backward fill leakage, future indexing, and full-sample statistics.
+- **Invariant testing:** checks properties such as prefix invariance and output alignment.
+- **Repair loop:** fixes concrete failed checks instead of endlessly regenerating code.
+- **AgentTrace:** records contracts, generated code, validation results, and repairs for debugging and evaluation.
+
+---
 
 
 ## 🚀 Quickstart
 
 ```bash
-git clone https://github.com/yourusername/FinCausal.git
+git clone https://github.com/echokc/FinCausal.git
 cd FinCausal
 ```
 

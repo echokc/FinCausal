@@ -7,7 +7,7 @@ from typing import Callable, Dict, List
 import numpy as np
 import pandas as pd
 
-from eval.generation.data.fixture_builders import _fixture
+from eval.generation.data.fixture_builders import fixture
 from eval.generation.data.fixture_models import UniverseFixture
 
 
@@ -26,7 +26,7 @@ def _s003(seed: int) -> List[UniverseFixture]:
     micro_noise = base + rng.normal(0, noise_scale, base.shape)
     condition_number = float(np.linalg.cond(base.cov().to_numpy()))
     return [
-        _fixture(
+        fixture(
             "base_returns",
             base,
             variant="ill_conditioned_return_panel",
@@ -35,7 +35,7 @@ def _s003(seed: int) -> List[UniverseFixture]:
             n_assets=n_assets,
             condition_number=condition_number,
         ),
-        _fixture(
+        fixture(
             "micro_noise",
             micro_noise,
             variant="micro_perturbed_return_panel",
@@ -71,8 +71,8 @@ def _s009(seed: int) -> List[UniverseFixture]:
     trap_close = 100 * np.exp(np.cumsum(trap_returns))
     leading_close = 100 * np.exp(np.cumsum(leading_returns))
     return [
-        _fixture("contemporaneous_trap", pd.DataFrame({"timestamp": ts, "close": trap_close, "volume": trap_volume}), variant="contemporaneous_volume_trap", expected={"position": "low"}, contemporaneous_strength=contemporaneous_strength),
-        _fixture("leading_signal", pd.DataFrame({"timestamp": ts, "close": leading_close, "volume": leading_volume}), variant="volume_leads_next_return", expected={"position": "high"}, spike_indices=spike_idx.tolist(), spacing=spacing, volume_spike=volume_spike, lead_return_bump=lead_return_bump),
+        fixture("contemporaneous_trap", pd.DataFrame({"timestamp": ts, "close": trap_close, "volume": trap_volume}), variant="contemporaneous_volume_trap", expected={"position": "low"}, contemporaneous_strength=contemporaneous_strength),
+        fixture("leading_signal", pd.DataFrame({"timestamp": ts, "close": leading_close, "volume": leading_volume}), variant="volume_leads_next_return", expected={"position": "high"}, spike_indices=spike_idx.tolist(), spacing=spacing, volume_spike=volume_spike, lead_return_bump=lead_return_bump),
     ]
 
 
@@ -106,11 +106,11 @@ def _s011(seed: int) -> List[UniverseFixture]:
         return pd.DataFrame({"timestamp": ts, "close": values})
 
     return [
-        _fixture("poisoned_breakout", frame(poisoned), variant="poisoned_breakout", expected={"flag_at": {breakout_idx: True, poison_idx: False}}, poison_idx=poison_idx, breakout_idx=breakout_idx),
-        _fixture("clean_breakout", frame(clean), variant="clean_breakout", expected={"flag_at": {breakout_idx: True}}, breakout_idx=breakout_idx),
-        _fixture("strong_poison_breakout", frame(strong), variant="strong_poison_breakout", expected={"flag_at": {breakout_idx: True, poison_idx: False}}, poison_idx=poison_idx, breakout_idx=breakout_idx),
-        _fixture("poison_without_signal", frame(no_signal), variant="poison_without_signal", expected={"total_flags": 0}, poison_idx=poison_idx),
-        _fixture("multiple_outliers_breakout", frame(multi), variant="multiple_outliers_breakout", expected={"flag_at": {breakout_idx: True}}, poison_indices=multi_indices, breakout_idx=breakout_idx),
+        fixture("poisoned_breakout", frame(poisoned), variant="poisoned_breakout", expected={"flag_at": {breakout_idx: True, poison_idx: False}}, poison_idx=poison_idx, breakout_idx=breakout_idx),
+        fixture("clean_breakout", frame(clean), variant="clean_breakout", expected={"flag_at": {breakout_idx: True}}, breakout_idx=breakout_idx),
+        fixture("strong_poison_breakout", frame(strong), variant="strong_poison_breakout", expected={"flag_at": {breakout_idx: True, poison_idx: False}}, poison_idx=poison_idx, breakout_idx=breakout_idx),
+        fixture("poison_without_signal", frame(no_signal), variant="poison_without_signal", expected={"total_flags": 0}, poison_idx=poison_idx),
+        fixture("multiple_outliers_breakout", frame(multi), variant="multiple_outliers_breakout", expected={"flag_at": {breakout_idx: True}}, poison_indices=multi_indices, breakout_idx=breakout_idx),
     ]
 
 
@@ -215,7 +215,7 @@ def _nonstationary_panel(seed: int, *, variant: str) -> List[UniverseFixture]:
         )
 
     return [
-        _fixture(
+        fixture(
             "clean",
             frame(base_y, base_x, base_z, base_a, base_b),
             variant="stationary_i0_panel",
@@ -223,7 +223,7 @@ def _nonstationary_panel(seed: int, *, variant: str) -> List[UniverseFixture]:
             shock_idx=shock_idx,
             sigma=sigma,
         ),
-        _fixture(
+        fixture(
             "shock",
             frame(shock_y, shock_x, shock_z, shock_a, shock_b),
             variant="post_t_unit_root_injection",

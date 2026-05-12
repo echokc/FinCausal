@@ -17,7 +17,7 @@ from eval.generation.prompts.prompt_builders import build_prompt_from_recipe
 from eval.recipes.recipe_models import MultiUniverseOutputRecipe
 from eval.evaluation.case_manifest import build_and_write_recipe_case
 from eval.scoring.generic_recipe_scorer import GenericRecipeScorer, RecipeScore
-from eval.smoketest.smoke_controls import SMOKE_CONTROLS
+from smoketest.smoke_controls import SMOKE_CONTROLS
 
 
 def score_candidate(

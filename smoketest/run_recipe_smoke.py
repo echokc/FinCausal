@@ -3,7 +3,7 @@ import json
 from typing import Any, Dict
 
 from eval.scoring.generic_recipe_scorer import GenericRecipeScorer, RecipeScore
-from eval.smoketest.smoke_controls import SMOKE_CONTROLS
+from smoketest.smoke_controls import SMOKE_CONTROLS
 
 
 def _score_to_dict(score: RecipeScore) -> Dict[str, Any]:
